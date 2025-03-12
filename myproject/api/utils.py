@@ -23,10 +23,11 @@ def verify_email(email):
     return data['data']['status']
 
 def verify_phone_number(phone_number):
+    """Verifies phone numbers using the Twilio Lookup API"""
     account_sid = os.environ["TWILIO_ACCOUNT_SID"]
     auth_token = os.environ["TWILIO_AUTH_TOKEN"]
     client = Client(account_sid, auth_token)
 
     data = client.lookups.v2.phone_numbers(phone_number).fetch()
-
+    # Return the status of phone number
     return data.valid
