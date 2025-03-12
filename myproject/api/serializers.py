@@ -9,7 +9,7 @@ class EmailSerializer(serializers.ModelSerializer):
 class PhoneSerializer(serializers.ModelSerializer):
     class Meta:
         model = Phone
-        fields = ['id', 'phone', 'phone_status']
+        fields = ['id', 'phone_number', 'phone_status']
 
 class LeadSerializer(serializers.ModelSerializer):
     emails = EmailSerializer(many=True, read_only=True)
