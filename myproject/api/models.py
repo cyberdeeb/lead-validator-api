@@ -1,8 +1,10 @@
 from django.db import models
+from django.contrib.auth.models import User
 from phonenumber_field.modelfields import PhoneNumberField
 
 class Lead(models.Model):
     """Model for leads with multiple emails and phone numbers"""
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
 
