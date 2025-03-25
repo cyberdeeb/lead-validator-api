@@ -1,21 +1,12 @@
 from rest_framework import serializers
-from .models import Lead, Email, Phone
+from phonenumber_field.modelfields import PhoneNumberField
 
-class EmailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Email
-        fields = ['id', 'email', 'email_status']
+class LeadVerificationSerializer(serializers.Serializer):
 
-class PhoneSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Phone
-        fields = ['id', 'phone_number', 'phone_status']
+    email = serializers.EmailField(required=False)
+    phone_number = PhoneNumberField(required=False)
 
-class LeadSerializer(serializers.ModelSerializer):
-    emails = EmailSerializer(many=True, read_only=True)
-    phone_numbers = PhoneSerializer(many=True, read_only=True)
-
-
-    class Meta:
-        model = Lead
-        fields = ['id', 'email', 'created_at', 'phone', 'emails', 'phone_numbers']
+    def validate(self, data):
+        if not data.get('email') or not data.get('phone_number'):
+            raise serializers.ValidationError('Either email or phone number are required')
+        return data
