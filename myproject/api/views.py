@@ -15,8 +15,22 @@ class LeadVerificationAPIview(APIView):
             email = serialzer.validated_data.get('email')
             phone_number = serialzer.validated_data.get('phone_number')
 
-            verified_email = verify_email(email)
-            verified_phone_number = verify_phone_number(phone_number)
+            if email:
+                verified_email = verify_email(email)
+
+            if phone_number:
+                verified_phone_number = verify_phone_number(phone_number)
+            
+            response_data = {
+                'email': email,
+                'phone_number': phone_number,
+                'data': {
+                    'email_data': verified_email,
+                    'phone_number_data': verified_phone_number
+                }
+            }
+
+            return Response(response_data, status=status.HTTP_200_OK)
         
         return Response(serialzer.errors, status=status.HTTP_400_BAD_REQUEST)
 

@@ -19,15 +19,36 @@ def verify_email(email):
         return {'error':str(e)}
     # Parse JSON response
     data = response.json()
-    # Return the status of the email
-    return data['data']['status']
+    # Pull the status, score, and if it is disposable
+    if data['data']['status'] == 'valid':
+        valid = True
+    else:
+        valid = False
+        
+    score = data['data']['score']
+    disposable = data['data']['disposable']
+
+    return {
+        'status': valid,
+        'score' : score,
+        'disposable': disposable
+    }
 
 def verify_phone_number(phone_number):
     """Verifies phone numbers using the Twilio Lookup API"""
+
+    if phone_number is None:
+        return None
+    
     account_sid = os.environ["TWILIO_ACCOUNT_SID"]
     auth_token = os.environ["TWILIO_AUTH_TOKEN"]
     client = Client(account_sid, auth_token)
 
     data = client.lookups.v2.phone_numbers(phone_number).fetch()
-    # Return the status of phone number
-    return data.valid
+    # Return the status of phone number & any validation errors
+    return {
+        'status': data.valid,
+        'validation_errors': data.validation_errors
+    }
+
+verify_phone_number('7026838052')
