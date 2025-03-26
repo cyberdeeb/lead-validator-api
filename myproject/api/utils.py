@@ -51,4 +51,3 @@ def verify_phone_number(phone_number):
         'validation_errors': data.validation_errors
     }
 
-verify_phone_number('7026838052')
