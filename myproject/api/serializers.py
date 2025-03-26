@@ -4,9 +4,9 @@ from phonenumber_field.serializerfields import PhoneNumberField
 class LeadVerificationSerializer(serializers.Serializer):
 
     email = serializers.EmailField(required=False)
-    phone_number = PhoneNumberField(required=False)
+    phone_number = PhoneNumberField(region="US", required=False)
 
     def validate(self, data):
-        if not data.get('email') or not data.get('phone_number'):
+        if not data.get('email') and not data.get('phone_number'):
             raise serializers.ValidationError('Either email or phone number are required')
         return data
