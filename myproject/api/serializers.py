@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from phonenumber_field.modelfields import PhoneNumberField
+from phonenumber_field.serializerfields import PhoneNumberField
 
 class LeadVerificationSerializer(serializers.Serializer):
 

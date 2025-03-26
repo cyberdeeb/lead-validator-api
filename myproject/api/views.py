@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from serializers import LeadVerificationSerializer
-from utils import verify_email, verify_phone_number
+from .serializers import LeadVerificationSerializer
+from .utils import verify_email, verify_phone_number
 
 class LeadVerificationAPIview(APIView):
     def post(self, request, format=None):
