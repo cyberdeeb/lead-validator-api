@@ -29,7 +29,7 @@ def verify_email(email):
     disposable = data['data']['disposable']
 
     return {
-        'status': valid,
+        'valid': valid,
         'score' : score,
         'disposable': disposable
     }
@@ -47,7 +47,7 @@ def verify_phone_number(phone_number):
     data = client.lookups.v2.phone_numbers(phone_number).fetch()
     # Return the status of phone number & any validation errors
     return {
-        'status': data.valid,
+        'valid': data.valid,
         'validation_errors': data.validation_errors
     }
 

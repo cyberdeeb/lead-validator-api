@@ -17,9 +17,13 @@ class LeadVerificationAPIview(APIView):
 
             if email:
                 verified_email = verify_email(email)
+            else:
+                verified_email = None
 
             if phone_number:
                 verified_phone_number = verify_phone_number(phone_number)
+            else:
+                verified_phone_number = None
             
             response_data = {
                 'email': email,
