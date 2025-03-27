@@ -10,3 +10,6 @@ class LeadVerificationSerializer(serializers.Serializer):
         if not data.get('email') and not data.get('phone_number'):
             raise serializers.ValidationError('Either email or phone number are required')
         return data
+    
+class CSVUploadSerializer(serializers.Serializer):
+    file = serializers.FileField()
