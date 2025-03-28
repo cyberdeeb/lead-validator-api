@@ -17,11 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
-from api.views import LeadVerificationAPIview
+from api.views import LeadVerificationAPIView, CSVLeadVerificationAPIView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('lead-api/', LeadVerificationAPIview.as_view())
+    path('verify/', LeadVerificationAPIView.as_view()),
+    path('bulk-verify/', CSVLeadVerificationAPIView.as_view())
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

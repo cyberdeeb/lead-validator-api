@@ -53,11 +53,10 @@ class CSVLeadVerificationAPIView(APIView):
             except Exception as e:
                 return Response({f'Error: Invalid CSV format: {e}'}, status=status.HTTP_400_BAD_REQUEST)
             
-            verified_data = {}
+            verified_data = []
             
             # Iterating using intertuples
             for row in df.itertuples():
-                index = row.Index
                 email = row.email
                 phone_number = row.phone_number
 
@@ -72,12 +71,12 @@ class CSVLeadVerificationAPIView(APIView):
                 else:
                     verified_phone_number = None
 
-                verified_data[index] = {'email': email,
-                                     'phone_number': phone_number,
-                                     'data': {
-                                         'email_data': verified_email,
-                                         'phone_number_data': verified_phone_number
-                                         }}
+                verified_data.append({'email': email,
+                                        'phone_number': phone_number,
+                                        'data': {
+                                            'email_data': verified_email,
+                                            'phone_number_data': verified_phone_number
+                                            }})
                 
             return Response(verified_data, status=status.HTTP_200_OK)
         
