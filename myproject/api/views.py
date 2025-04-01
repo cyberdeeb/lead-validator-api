@@ -2,11 +2,19 @@ import pandas as pd
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
+from .authentication import APIKeyAuthentication
 from .serializers import LeadVerificationSerializer, CSVUploadSerializer
 from .utils import verify_email, verify_phone_number
 
 class LeadVerificationAPIView(APIView):
+
+    # Require API key
+    authentication_classes = [APIKeyAuthentication]
+    # Only accessed by authenticated users
+    permission_classes = [IsAuthenticated]
+
     def post(self, request, format=None):
         serializer = LeadVerificationSerializer(data=request.data)
 
@@ -41,6 +49,12 @@ class LeadVerificationAPIView(APIView):
 
 
 class CSVLeadVerificationAPIView(APIView):
+
+    # Require API key
+    authentication_classes = [APIKeyAuthentication]
+    # Only accessed by authenticated users
+    permission_classes = [IsAuthenticated]
+
     def post(self, request):
         serializer = CSVUploadSerializer(data=request.data)
         # Ensure that the request is valid
