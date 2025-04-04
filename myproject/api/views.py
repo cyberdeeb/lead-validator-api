@@ -1,13 +1,18 @@
 import pandas as pd
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from .authentication import APIKeyAuthentication
+from .models import APIKey
 from .serializers import LeadVerificationSerializer, CSVUploadSerializer
 from .utils import verify_email, verify_phone_number
 
+# API Views
 class LeadVerificationAPIView(APIView):
 
     # Require API key
@@ -95,3 +100,21 @@ class CSVLeadVerificationAPIView(APIView):
             return Response(verified_data, status=status.HTTP_200_OK)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+# Web views
+
+def signup_view(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid:
+            user = form.save()
+            login(request, user)
+            return redirect('dashboard')
+        else:
+            form = UserCreationForm()
+        return render(request, 'signup.html', {'form':form}) 
+    
+@login_required
+def dashboard_view(request):
+    api_keys = APIKey.objects.filter(user=request.user)
+    return render(request, 'dashboard.html', {'api_keys': api_keys})
