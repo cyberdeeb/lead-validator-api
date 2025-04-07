@@ -21,6 +21,10 @@ class APIKey(models.Model):
     def check_key(self, key):
         """Check if provided key matches hashed key"""
         return check_password(key, self.hashed_key)
+    
+    @property
+    def prefix(self):
+        return self.hashed_key[:8]
 
 
 

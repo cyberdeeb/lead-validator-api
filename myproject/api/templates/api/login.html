@@ -1,0 +1,16 @@
+{% extends "api/base.html" %} 
+{% block title %}Login{% endblock %} 
+{% block content %} 
+
+<h2> Login </h2>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">Login</button>
+</form>
+
+{% if form.errors %}
+<p>Invalid login. Plese try again.</p>
+{% endif %}
+{% endblock %}

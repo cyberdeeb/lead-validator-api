@@ -25,7 +25,7 @@ urlpatterns = [
     path('verify/', LeadVerificationAPIView.as_view()),
     path('bulk-verify/', CSVLeadVerificationAPIView.as_view()),
     path('signup/', signup_view, name='signup'),
-    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('login/', auth_views.LoginView.as_view(template_name='api/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('dashboard/', dashboard_view, name='dashboard'),
 ]

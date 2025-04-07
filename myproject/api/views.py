@@ -110,11 +110,11 @@ def signup_view(request):
             user = form.save()
             login(request, user)
             return redirect('dashboard')
-        else:
+    else:
             form = UserCreationForm()
-        return render(request, 'signup.html', {'form':form}) 
+    return render(request, 'api/signup.html', {'form':form}) 
     
 @login_required
 def dashboard_view(request):
     api_keys = APIKey.objects.filter(user=request.user)
-    return render(request, 'dashboard.html', {'api_keys': api_keys})
+    return render(request, 'api/dashboard.html', {'api_keys': api_keys})
