@@ -42,8 +42,14 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "api",
-    "rest_framework"
+    "rest_framework",
+    "crispy_forms",
+    "crispy_bulma",
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = ("bulma",)
+
+CRISPY_TEMPLATE_PACK = "bulma"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

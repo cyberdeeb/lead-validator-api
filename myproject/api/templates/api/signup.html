@@ -1,12 +1,15 @@
 {% extends "api/base.html" %} 
+{% load crispy_forms_tags %}
 {% block title %}Sign Up{% endblock %} 
 {% block content %} 
 
-<h2> Create an Account </h2>
+<h2 class="title is-3 m-5 has-text-centered"> Create an Account </h2>
 
-<form method="POST">
-    {% csrf_token %}
-    {{ form }}
-    <button type="submit">Sign Up</button>
-</form>
+<div class="is-flex is-justify-content-center is-flex-direction-column is-align-items-center mt-5">
+    <form method="POST">
+        {% csrf_token %}
+        {% crispy form %}
+    </form>
+</div>
 {% endblock %}
+
