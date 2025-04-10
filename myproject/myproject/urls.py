@@ -14,18 +14,19 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from api.forms import CustomUserAuthenticationForm
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
-from api.views import LeadVerificationAPIView, CSVLeadVerificationAPIView, signup_view, dashboard_view
+from api.views import LeadVerificationAPIView, CSVLeadVerificationAPIView, CustomLoginView, signup_view, dashboard_view
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('verify/', LeadVerificationAPIView.as_view()),
     path('bulk-verify/', CSVLeadVerificationAPIView.as_view()),
     path('signup/', signup_view, name='signup'),
-    path('login/', auth_views.LoginView.as_view(template_name='api/login.html'), name='login'),
+    path('login/', CustomLoginView.as_view(template_name='api/login.html', form_class=CustomUserAuthenticationForm), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('dashboard/', dashboard_view, name='dashboard'),
 ]

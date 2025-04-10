@@ -2,6 +2,7 @@ import pandas as pd
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView
 from .forms import CustomUserCreationForm
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -104,15 +105,25 @@ class CSVLeadVerificationAPIView(APIView):
 # Web views
 
 def signup_view(request):
+    if request.user.is_authenticated:
+        return redirect('dashboard')
+
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
-        if form.is_valid:
+        if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect('dashboard')
     else:
             form = CustomUserCreationForm()
+
     return render(request, 'api/signup.html', {'form':form}) 
+
+class CustomLoginView(LoginView):
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('dashboard')
+        return super().dispatch(request, *args, **kwargs)
     
 @login_required
 def dashboard_view(request):

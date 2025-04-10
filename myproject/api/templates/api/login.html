@@ -1,16 +1,26 @@
 {% extends "api/base.html" %} 
+{% load crispy_forms_tags %}
 {% block title %}Login{% endblock %} 
 {% block content %} 
 
-<h2> Login </h2>
+<h2 class="title is-3 m-5 has-text-centered"> Login </h2>
 
-<form method="POST">
-    {% csrf_token %}
-    {{ form }}
-    <button type="submit">Login</button>
-</form>
+<div class="is-flex is-justify-content-center is-flex-direction-column is-align-items-center mt-5">
+    <form method="POST">
+        {% csrf_token %}
+        {% crispy form %}
+    </form>
+    {% if form.errors %}
+    <p class="is-6 m-5 has-text-centered has-text-weight-semibold has-text-danger">Invalid login. Plese try again.</p>
+    {% endif %}
+</div>
+<div class="has-text-centered mt-3">
+    <p class="mb-5">
+        <a href="">Forgot Password</a>
+    </p>
+    <p>
+        Don't have an account? <a href="{% url 'signup' %}">Sign Up</a>
+    </p>
+</div>
 
-{% if form.errors %}
-<p>Invalid login. Plese try again.</p>
-{% endif %}
 {% endblock %}
