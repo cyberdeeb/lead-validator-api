@@ -19,10 +19,11 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
-from api.views import LeadVerificationAPIView, CSVLeadVerificationAPIView, CustomLoginView, signup_view, dashboard_view
+from api.views import LeadVerificationAPIView, CSVLeadVerificationAPIView, CustomLoginView, signup_view, dashboard_view, home_view
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", home_view, name='home'),
     path('verify/', LeadVerificationAPIView.as_view()),
     path('bulk-verify/', CSVLeadVerificationAPIView.as_view()),
     path('signup/', signup_view, name='signup'),

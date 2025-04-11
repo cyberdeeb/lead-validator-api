@@ -103,6 +103,9 @@ class CSVLeadVerificationAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 # Web views
+def home_view(request):
+    return render(request, 'api/home.html')
+
 
 def signup_view(request):
     if request.user.is_authenticated:

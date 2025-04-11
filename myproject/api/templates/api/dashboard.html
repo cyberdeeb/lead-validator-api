@@ -1,33 +1,43 @@
 {% extends "api/base.html" %} 
 {% block title %}Dashboard{% endblock %} 
 {% block content %} 
+<section>
+  <h2 class="title is-3 m-5 has-text-centered"> API Usage </h2>
 
-<h2> API Usage </h2>
-
-<h3>Welcome {{ user.username }}</h3>
-
-<table>
-    <tr>
-      <th>API Prefix</th>
-      <th>Created</th>
-      <th>Last Used</th>
-      <th>Request Count</th>
-      <th>Bulk Request Count</th>
-    </tr>
-    {% for key in api_keys %}
-    <tr>
-      <td>{{ key.prefix }}</td>
-      <td>{{ key.created_at }}</td>
-      <td>{{ key.last_used_at }}</td>
-      <td>{{ key.regular_request_count }}</td>
-      <td>{{ key.bulk_request_count }}</td>
-    </tr>
-    {% empty %}
-    <tr>
-        <td colspan="5">You don't have an API key yet.</td>
-    </tr>
-    {% endfor %}
-  </table>
-
+  <h3 class="title is-4 m-5 has-text-centered">Welcome {{ user.username }}!</h3>
+</section>
+<section class="is-flex is-justify-content-center m-5">
+  <table class="table">
+      <tr>
+        <th>API Prefix</th>
+        <th>Created</th>
+        <th>Last Used</th>
+        <th>Request Count</th>
+        <th>Bulk Request Count</th>
+        <th>Actions</th>
+      </tr>
+      {% for key in api_keys %}
+      <tr>
+        <td>{{ key.prefix }}</td>
+        <td>{{ key.created_at }}</td>
+        <td>{{ key.last_used_at }}</td>
+        <td>{{ key.regular_request_count }}</td>
+        <td>{{ key.bulk_request_count }}</td>
+        <td>
+          <a href="{% url 'regenerate-api-key' key.id %}" class="button is-small is-warning">Regenerate</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+          <td colspan="6" class="has-text-centered">You don't have an API key yet.</td>
+      </tr>
+      <tr>
+         <td colspan="6" class="has-text-centered">
+          <a href="" class="button is-link mt-1">Generate</a>
+         </td>
+      </tr>
+      {% endfor %}
+    </table>
+</section>
 
 {% endblock %}
