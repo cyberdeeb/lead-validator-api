@@ -1,8 +1,21 @@
+.logo {
+    width: 35%;        
+    max-width: 90%;      
+    height: auto;       
+    display: block;  
+    margin: 0 auto 1em auto;
+  }
+
 .label {
     margin-top: 1.25em;
 }
 
-.navbar-logo {
-    max-height: 4rem; 
-    max-width: auto;
+
+.navbar-item img { 
+    max-height: 4em; 
+    max-width: auto; 
+}
+
+.navbar-item.is-active {
+    color: #9b1e27
 }
