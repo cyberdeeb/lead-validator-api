@@ -24,7 +24,10 @@
         <td>{{ key.regular_request_count }}</td>
         <td>{{ key.bulk_request_count }}</td>
         <td>
-          <a href="{% url 'regenerate-api-key' key.id %}" class="button is-small is-warning">Regenerate</a>
+          <form method="post" action="{% url 'regenerate' %}">
+            {% csrf_token %}
+            <button type="submit" class="is-button is-small is-warning">Regenerate</button>
+          </form>
         </td>
       </tr>
       {% empty %}
@@ -33,7 +36,10 @@
       </tr>
       <tr>
          <td colspan="6" class="has-text-centered">
-          <a href="" class="button is-link mt-1">Generate</a>
+          <form method="post" action="{% url 'generate' %}">
+            {% csrf_token %}
+            <button type="submit" class="button is-link mt-1">Regenerate</button>
+          </form>
          </td>
       </tr>
       {% endfor %}

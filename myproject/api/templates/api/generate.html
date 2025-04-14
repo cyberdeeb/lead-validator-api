@@ -1,0 +1,16 @@
+{% extends "api/base.html" %} 
+{% block title %}Regenerated API Key{% endblock %} 
+{% block content %} 
+
+
+<section>
+    <h2 class="title is-3 m-5 has-text-centered"> Regenerated API Key </h2>
+    {% if api_key %}
+    <h3 class="title is-4 m-5 has-text-centered">{{ api_key }}!</h3>
+    <p class="api-alert has-text-centered">Please save your API Key in a secure location. This will only be shared once and you can only regenerate a key every 30 days.</p>
+    {% elif error %}
+    <h3 class="title is-4 m-5 has-text-centered">{{ error }}</h3>
+  </section>
+
+ 
+{% endblock %}

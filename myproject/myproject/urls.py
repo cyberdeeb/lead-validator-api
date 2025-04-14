@@ -19,7 +19,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
-from api.views import LeadVerificationAPIView, CSVLeadVerificationAPIView, CustomLoginView, signup_view, dashboard_view, home_view
+from api.views import LeadVerificationAPIView, CSVLeadVerificationAPIView, CustomLoginView, signup_view, dashboard_view, home_view, generate_view, regenerate_view
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -30,6 +30,8 @@ urlpatterns = [
     path('login/', CustomLoginView.as_view(template_name='api/login.html', form_class=CustomUserAuthenticationForm), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('dashboard/', dashboard_view, name='dashboard'),
+    path('generate/', generate_view, name='generate'),
+    path('regenerate/', regenerate_view, name='regenerate')
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

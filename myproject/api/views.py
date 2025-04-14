@@ -132,3 +132,34 @@ class CustomLoginView(LoginView):
 def dashboard_view(request):
     api_keys = APIKey.objects.filter(user=request.user)
     return render(request, 'api/dashboard.html', {'api_keys': api_keys})
+
+@login_required
+# Used for first time API Key generation
+def generate_view(request):
+    try:
+        # Get or create new API Key based on user
+        api_key, created = APIKey.objects.get_or_create(user=request.user)
+
+        if created:
+            # If the API key was created show key to user once
+            return render(request, 'api/generate.html', {'api_key': api_key })
+        else:
+            return render(request, 'api/generate.html', {'error': 'You already have an API Key'})
+    except ValueError as e:
+        return render(request, 'api/generate.html', {'error': str(e)})
+
+
+
+    
+
+@login_required
+# Used when regenerate button clicked by user
+def regenerate_view(request):
+    try:
+        api_key = request.user.api_key
+        new_key = api_key.regenerate_key()
+        return render(request, 'api/generate.html', {'api_key': new_key})
+    except ValueError as e:
+        return render(request, 'api/generate.html', {'error': str(e)})
+    
+
