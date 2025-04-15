@@ -6,6 +6,15 @@
 
   <h3 class="title is-4 m-5 has-text-centered">Welcome {{ user.username }}!</h3>
 </section>
+{% if messages %}
+<section>
+  {% for message in messages %}
+  <div class="notification {{ message.tags }}">
+    {{ message }}
+  </div>
+  {% endfor %}
+</section>
+{% endif %}
 <section class="is-flex is-justify-content-center m-5">
   <table class="table">
       <tr>

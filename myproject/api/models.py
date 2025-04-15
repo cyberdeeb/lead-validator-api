@@ -17,9 +17,11 @@ class APIKey(models.Model):
 
     def save(self, *args, **kwargs):
         """Gernerate a random API Key"""
+        #Generate if there is no hashed key yet
         if not self.hashed_key:
-            key = secrets.token_hex(20)
-            self.hashed_key = make_password(key)
+            new_key = secrets.token_hex(20)
+            self.hashed_key = make_password(new_key)
+            self._plain_key = new_key # Temporarly store plain key to share with user once
         super().save(*args, **kwargs)
 
     def check_key(self, key):

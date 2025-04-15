@@ -1,5 +1,6 @@
 import pandas as pd
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
@@ -136,30 +137,40 @@ def dashboard_view(request):
 @login_required
 # Used for first time API Key generation
 def generate_view(request):
-    try:
-        # Get or create new API Key based on user
-        api_key, created = APIKey.objects.get_or_create(user=request.user)
+    if request.method == 'POST':
+        try:
+            # Verify user does not already have an active API key
+            if APIKey.objects.filter(user=request.user, is_inactive=False).exists():
+                messages.error(request, 'You already have an active API Key.')
+            else:
+                # Create and save the new key
+                api_key = APIKey(user=request.user)
+                api_key.save()
 
-        if created:
-            # If the API key was created show key to user once
-            return render(request, 'api/generate.html', {'api_key': api_key })
-        else:
-            return render(request, 'api/generate.html', {'error': 'You already have an API Key'})
-    except ValueError as e:
-        return render(request, 'api/generate.html', {'error': str(e)})
+                # Access the temporary plain key
+                if hasattr(api_key, '_plain_key'):
+                    messages.success(request, f'Your API key: {api_key._plain_key}')
+                else:
+                    messages.error(request, 'Something went wrong during key generation')
 
-
-
+        except ValueError as e:
+            messages.error(request, f'{str(e)}')
+        return redirect('dashboard')
     
+    return redirect('dashboard')
 
 @login_required
 # Used when regenerate button clicked by user
 def regenerate_view(request):
-    try:
-        api_key = request.user.api_key
-        new_key = api_key.regenerate_key()
-        return render(request, 'api/generate.html', {'api_key': new_key})
-    except ValueError as e:
-        return render(request, 'api/generate.html', {'error': str(e)})
+    if request.method == 'POST':
+        try:
+            api_key = APIKey.objects.filter(user=request.user, is_inactive=False).first()
+            new_key = api_key.regenerate_key()
+            messages.success(request, f'Your API key: {new_key}')
+            messages.warning(request, 'Please save your API Key in a secure location. This will only be shared once and you can only regenerate a key every 30 days.')
+        except ValueError as e:
+            messages.error(request, f'{str(e)}')
+        return redirect('dashboard')
+    return redirect('dashboard')
     
 
