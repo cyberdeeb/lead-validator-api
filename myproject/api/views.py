@@ -8,6 +8,7 @@ from .forms import CustomUserCreationForm
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.throttling import UserRateThrottle
 from rest_framework import status
 from .authentication import APIKeyAuthentication
 from .models import APIKey
@@ -16,6 +17,7 @@ from .utils import verify_email, verify_phone_number
 
 # API Views
 class LeadVerificationAPIView(APIView):
+    throttle_classes = [UserRateThrottle]
 
     # Require API key
     authentication_classes = [APIKeyAuthentication]
@@ -56,6 +58,7 @@ class LeadVerificationAPIView(APIView):
 
 
 class CSVLeadVerificationAPIView(APIView):
+    throttle_classes = [UserRateThrottle]
 
     # Require API key
     authentication_classes = [APIKeyAuthentication]
@@ -131,7 +134,7 @@ class CustomLoginView(LoginView):
     
 @login_required
 def dashboard_view(request):
-    api_keys = APIKey.objects.filter(user=request.user)
+    api_keys = APIKey.objects.filter(user=request.user).order_by('-created_at')
     return render(request, 'api/dashboard.html', {'api_keys': api_keys})
 
 @login_required

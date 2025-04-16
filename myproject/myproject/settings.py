@@ -47,6 +47,16 @@ INSTALLED_APPS = [
     "crispy_bulma",
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.UserRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'user': '10/month',
+    }
+}
+
+
 CRISPY_ALLOWED_TEMPLATE_PACKS = ("bulma",)
 
 CRISPY_TEMPLATE_PACK = "bulma"

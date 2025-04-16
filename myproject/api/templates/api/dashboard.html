@@ -7,47 +7,63 @@
   <h3 class="title is-4 m-5 has-text-centered">Welcome {{ user.username }}!</h3>
 </section>
 {% if messages %}
-<section>
-  {% for message in messages %}
-  <div class="notification {{ message.tags }}">
-    {{ message }}
+  <div class="section">
+    {% for message in messages %}
+      <div class="notification 
+        {% if message.tags == 'success' %}is-success
+        {% elif message.tags == 'error' or message.tags == 'danger' %}is-danger
+        {% elif message.tags == 'warning' %}is-warning
+        {% elif message.tags == 'info' %}is-info
+        {% endif %}">
+        <button class="delete"></button>
+        {{ message }}
+      </div>
+    {% endfor %}
   </div>
-  {% endfor %}
-</section>
 {% endif %}
 <section class="is-flex is-justify-content-center m-5">
-  <table class="table">
+  <table class="table has-text-centered">
       <tr>
-        <th>API Prefix</th>
-        <th>Created</th>
-        <th>Last Used</th>
-        <th>Request Count</th>
-        <th>Bulk Request Count</th>
-        <th>Actions</th>
+        <th class="has-text-centered">API Prefix</th>
+        <th class="has-text-centered">Created</th>
+        <th class="has-text-centered">Last Used</th>
+        <th class="has-text-centered">Request Count</th>
+        <th class="has-text-centered">Bulk Request Count</th>
+        <th class="has-text-centered">Last Regenerated</th>
+        <th class="has-text-centered">Status</th>
+        <th class="has-text-centered">Actions</th>
       </tr>
       {% for key in api_keys %}
       <tr>
         <td>{{ key.prefix }}</td>
         <td>{{ key.created_at }}</td>
-        <td>{{ key.last_used_at }}</td>
+        <td>{{ key.last_used_at|default:"Never" }}</td>
         <td>{{ key.regular_request_count }}</td>
         <td>{{ key.bulk_request_count }}</td>
+        <td>{{ key.last_regenerated|default:"Never" }}</td>
+        <td>
+          {% if key.is_inactive %}
+          <span class="tag is-danger">Inactive</span>
+          {% else %}
+          <span class="tag is-success">Active</span>
+          {% endif %}
+        </td>
         <td>
           <form method="post" action="{% url 'regenerate' %}">
             {% csrf_token %}
-            <button type="submit" class="is-button is-small is-warning">Regenerate</button>
+            <button type="submit" class="button is-small is-rounded is-warning" {% if key.is_inactive %}title="Inactive" disabled{% endif %}>Regenerate</button>
           </form>
         </td>
       </tr>
       {% empty %}
       <tr>
-          <td colspan="6" class="has-text-centered">You don't have an API key yet.</td>
+          <td colspan="8" class="has-text-centered">You don't have an API key yet.</td>
       </tr>
       <tr>
-         <td colspan="6" class="has-text-centered">
+         <td colspan="8" class="has-text-centered">
           <form method="post" action="{% url 'generate' %}">
             {% csrf_token %}
-            <button type="submit" class="button is-link mt-1">Regenerate</button>
+            <button type="submit" class="button is-rounded is-link mt-1">Generate</button>
           </form>
          </td>
       </tr>

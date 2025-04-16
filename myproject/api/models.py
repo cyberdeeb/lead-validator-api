@@ -29,20 +29,27 @@ class APIKey(models.Model):
         return check_password(key, self.hashed_key)
     
     def regenerate_key(self):
+        # Check if this is the first key ever (never been regenerated)
+        if self.last_regenerated == None:
+            last_regenerated_time = self.created_at
+        else:
+            last_regenerated_time = self.last_regenerated
+
         # Check if API key has been regenerated within the past month
-        if self.last_regenerated and self.last_regenerated + timedelta(days=30) > timezone.now():
+        if last_regenerated_time + timedelta(days=30) > timezone.now():
             raise ValueError('You can only regenerate your API Key once per month.')
         
         # Current key is marked inactive
         self.is_inactive = True
         self.save()
 
-        # Generate the new API Key
+        # Generate a new API key instance
         new_key = secrets.token_hex(20)
-        self.hashed_key = make_password(new_key)
-        self.last_regenerated = timezone.now()
-        self.is_inactive = False
-        self.save()
+        new_api_key = APIKey.objects.create(
+            user=self.user,
+            hashed_key=make_password(new_key),
+            last_regenerated = timezone.now()
+        )
         
         # Return new key to show user once in plain text
         return new_key
