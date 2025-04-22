@@ -1,8 +1,8 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm
 from django.contrib.auth.models import User
 from crispy_forms.helper import FormHelper
-from crispy_bulma.layout import Layout, Field, Submit, Column
+from crispy_bulma.layout import Layout, Field, Submit, Column, Div
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(label='Email Address', required=True)
@@ -32,7 +32,7 @@ class CustomUserCreationForm(UserCreationForm):
             Field('email', placeholder='Email', css_class=''),
             Field('password1', placeholder='Enter Password'),
             Field('password2', placeholder='Re-enter Password'),
-            Column(Submit('submit', 'Sign Up', css_class='is-primary'), css_class='has-text-centered')
+            Column(Submit('submit', 'Sign Up', css_class='button is-primary'), css_class='has-text-centered')
         )
 
 class CustomUserAuthenticationForm(AuthenticationForm):
@@ -47,5 +47,21 @@ class CustomUserAuthenticationForm(AuthenticationForm):
         self.helper.layout = Layout(
             Field('username', placeholder='Username'),
             Field('password', placeholder='Password'),
-            Column(Submit('submit', 'Login', css_class='is-primary'), css_class='has-text-centered')
+            Column(Submit('submit', 'Login', css_class='button is-primary'), css_class='has-text-centered')
         )
+
+class CustomPasswordResetForm(PasswordResetForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+     # Crispy form helper for styling and layout
+        self.helper = FormHelper()
+        self.helper.form_id = 'password_reset_form'
+        self.helper.form_class = 'mt-5'
+        self.helper.form_horizontal = True
+
+        self.helper.layout = Layout(
+            Field('email', placeholder='Email', css_class='mt-3'),
+            Div(Submit('submit', 'Submit', css_class='button is-primary mt-3'), css_class='is-flex is-justify-content-center')
+        )
+
