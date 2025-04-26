@@ -17,7 +17,7 @@ Including another URLconf
 from api.forms import CustomUserAuthenticationForm, CustomPasswordResetForm
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from django.urls import path
+from django.urls import path, reverse_lazy
 from rest_framework.urlpatterns import format_suffix_patterns
 from api.views import LeadVerificationAPIView, CSVLeadVerificationAPIView, CustomLoginView, signup_view, dashboard_view, home_view, generate_view, regenerate_view
 
@@ -30,7 +30,7 @@ urlpatterns = [
     path('login/', CustomLoginView.as_view(template_name='api/login.html', form_class=CustomUserAuthenticationForm), name='login'),
     path('password_reset/', auth_views.PasswordResetView.as_view(template_name='api/password_reset_form.html', email_template_name='api/password_reset_email.html', form_class=CustomPasswordResetForm), name='password_reset'),
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='api/password_reset_sent.html'), name='password_reset_done'),
-    path('reset/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(template_name='api/password_reset_confirm.html', success_url='reset/done/'), name='password_reset_confirm'),
+    path('reset/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(template_name='api/password_reset_confirm.html', success_url=reverse_lazy('password_reset_complete'),), name='password_reset_confirm'),
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='api/password_reset_complete.html'), name='password_reset_complete'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('dashboard/', dashboard_view, name='dashboard'),

@@ -64,4 +64,3 @@ class CustomPasswordResetForm(PasswordResetForm):
             Field('email', placeholder='Email', css_class='mt-3'),
             Div(Submit('submit', 'Submit', css_class='button is-primary mt-3'), css_class='is-flex is-justify-content-center')
         )
-
