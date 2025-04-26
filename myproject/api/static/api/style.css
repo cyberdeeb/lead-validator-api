@@ -1,0 +1,24 @@
+.logo {
+    width: 30%;        
+    max-width: 90%;      
+    height: auto;       
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+.label {
+    margin-top: 1.25em;
+}
+
+
+.navbar-item img { 
+    max-height: 4em; 
+    max-width: auto; 
+}
+
+.navbar-item.is-active {
+    color: #9b1e27;
+    background-color: transparent;
+}
+

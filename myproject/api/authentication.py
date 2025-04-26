@@ -11,10 +11,13 @@ class APIKeyAuthentication(BaseAuthentication):
             return None
         # Verify the API Key
         try:
-            key = APIKey.objects.get(key=api_key)
+            key = APIKey.objects.select_related('user').get(user__is_active=True)
         except APIKey.DoesNotExist:
             raise AuthenticationFailed('Invalid API Key')
         
+        if not key.check_key(api_key):
+            raise AuthenticationFailed('Invalid API Key')
+
         # Determine verification request type to track usage
         is_bulk = request.path.startswith('/bulk-verify/')
 
@@ -32,4 +35,4 @@ class APIKeyAuthentication(BaseAuthentication):
         )
 
         
-        return (key, None)
+        return (key.user, None)

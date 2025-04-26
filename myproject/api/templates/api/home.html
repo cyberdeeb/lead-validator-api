@@ -1,0 +1,28 @@
+{% extends "api/base.html" %} 
+{% load static %}
+{% block title %}Lead Verifier by Abraham Deeb{% endblock %} 
+{% block content %} 
+
+<section class="section">
+    <div class="container">
+      <!-- Centered logo -->
+      
+        <img src="{% static 'api/images/logo.png' %}" alt="Project Logo" class="logo">
+      
+
+      <!-- Project title and description -->
+
+      <p class="subtitle is-3 m-5 has-text-centered">
+        A lead verification platform built with Django REST Framework.
+        It checks the validity of email addresses and phone numbers via API or CSV upload.
+      </p>
+
+      <div class="box has-text-centered mt-3">
+        <p class="is-size-6">
+          Created by <strong>Abraham Deeb</strong> — Backend developer passionate about clean architecture, automation, and empowering pipelines with reliable data tools.
+        </p>
+      </div>
+    </div>
+</section>
+
+{% endblock %}
