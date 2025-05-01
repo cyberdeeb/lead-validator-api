@@ -48,6 +48,7 @@ def verify_phone_number(phone_number):
     # Return the status of phone number & any validation errors
     return {
         'valid': data.valid,
+        'line_type': data.line_type_intelligence,
         'validation_errors': data.validation_errors
     }
 
