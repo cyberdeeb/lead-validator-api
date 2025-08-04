@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, ContactForm
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -111,6 +111,10 @@ def home_view(request):
     return render(request, 'api/home.html')
 
 
+def documentation_view(request):
+    return render(request, 'api/documentation.html')
+
+
 def signup_view(request):
     if request.user.is_authenticated:
         return redirect('dashboard')
@@ -175,5 +179,24 @@ def regenerate_view(request):
             messages.error(request, f'{str(e)}')
         return redirect('dashboard')
     return redirect('dashboard')
-    
 
+# Contact page view
+def contact_view(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            # Process the form data
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            subject = form.cleaned_data['subject']
+            message = form.cleaned_data['message']
+            
+            # Add success message
+            messages.success(request, 'Thank you for your message! We\'ll get back to you soon.')
+            
+            # Redirect to prevent form resubmission
+            return redirect('contact')
+    else:
+        form = ContactForm()
+    
+    return render(request, 'api/contact.html', {'form': form})

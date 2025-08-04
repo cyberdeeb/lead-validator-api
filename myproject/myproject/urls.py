@@ -15,15 +15,19 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from api.forms import CustomUserAuthenticationForm, CustomPasswordResetForm
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path, reverse_lazy
 from rest_framework.urlpatterns import format_suffix_patterns
-from api.views import LeadVerificationAPIView, CSVLeadVerificationAPIView, CustomLoginView, signup_view, dashboard_view, home_view, generate_view, regenerate_view
+from api.views import LeadVerificationAPIView, CSVLeadVerificationAPIView, CustomLoginView, signup_view, dashboard_view, home_view, generate_view, regenerate_view, documentation_view, contact_view
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", home_view, name='home'),
+    path('docs/', documentation_view, name='documentation'),
+    path('contact/', contact_view, name='contact'),
     path('verify/', LeadVerificationAPIView.as_view()),
     path('bulk-verify/', CSVLeadVerificationAPIView.as_view()),
     path('signup/', signup_view, name='signup'),
@@ -39,3 +43,7 @@ urlpatterns = [
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
+
+# Serve static files during development
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])

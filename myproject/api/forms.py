@@ -4,6 +4,36 @@ from django.contrib.auth.models import User
 from crispy_forms.helper import FormHelper
 from crispy_bulma.layout import Layout, Field, Submit, Column, Div
 
+class ContactForm(forms.Form):
+    SUBJECT_CHOICES = [
+        ('general', 'General Inquiry'),
+        ('api', 'API Questions'),
+        ('bug', 'Bug Report'),
+        ('feature', 'Feature Request'),
+        ('business', 'Business Inquiry'),
+    ]
+    
+    name = forms.CharField(max_length=100, label='Your Name')
+    email = forms.EmailField(label='Your Email')
+    subject = forms.ChoiceField(choices=SUBJECT_CHOICES, label='Subject')
+    message = forms.CharField(widget=forms.Textarea(attrs={'rows': 6}), label='Message')
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        # Crispy form helper for styling and layout
+        self.helper = FormHelper()
+        self.helper.form_id = 'contact_form'
+        self.helper.form_class = 'mt-3'
+        
+        self.helper.layout = Layout(
+            Field('name', placeholder='Enter your full name'),
+            Field('email', placeholder='Enter your email address'),
+            Field('subject'),
+            Field('message', placeholder='Please describe your inquiry in detail...'),
+            Column(Submit('submit', 'Send Message', css_class='button is-primary'), css_class='has-text-centered')
+        )
+
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(label='Email Address', required=True)
 

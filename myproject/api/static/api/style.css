@@ -20,3 +20,51 @@
   color: #9b1e27;
   background-color: transparent;
 }
+
+/* Code block styling for better readability */
+pre {
+  background-color: #f8f8f8 !important;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 4px !important;
+}
+
+pre code {
+  color: #2d3748 !important; /* Dark gray for better readability */
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace !important;
+  font-size: 0.9em !important;
+  line-height: 1.4 !important;
+}
+
+/* Inline code styling */
+code {
+  background-color: #f1f1f1 !important;
+  color: #2d3748 !important;
+  padding: 2px 4px !important;
+  border-radius: 3px !important;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace !important;
+}
+
+/* Documentation specific styling */
+.has-background-light pre,
+.has-background-light code {
+  background-color: #f8f8f8 !important;
+  color: #2d3748 !important;
+}
+
+/* Improve contrast for documentation tables */
+.table td code {
+  background-color: #f1f1f1 !important;
+  color: #c53030 !important; /* Red for error codes */
+  font-weight: 600 !important;
+}
+
+/* Status tag styling */
+.tag.is-danger {
+  background-color: #e53e3e !important;
+  color: white !important;
+}
+
+.tag.is-warning {
+  background-color: #dd6b20 !important;
+  color: white !important;
+}

@@ -1,0 +1,158 @@
+{% extends "api/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Contact Us - Lead Verifier{% endblock %}
+{% block content %}
+
+<section class="section">
+    <div class="container">
+        <div class="columns is-centered">
+            <div class="column is-two-thirds">
+
+                <!-- Header -->
+                <div class="has-text-centered mb-6">
+                    <h1 class="title is-2">Contact Us</h1>
+                    <p class="subtitle is-4">
+                        Get in touch with questions, feedback, or business inquiries
+                    </p>
+                </div>
+
+                <!-- Contact Info Cards -->
+                <div class="columns mb-6">
+                    <div class="column">
+                        <div class="box has-text-centered">
+                            <span class="icon is-large has-text-primary mb-3">
+                                <i class="fas fa-envelope fa-2x"></i>
+                            </span>
+                            <h3 class="title is-5">Email</h3>
+                            <p class="has-text-grey">For general inquiries and support</p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="box has-text-centered">
+                            <span class="icon is-large has-text-primary mb-3">
+                                <i class="fas fa-code fa-2x"></i>
+                            </span>
+                            <h3 class="title is-5">Developer</h3>
+                            <p class="has-text-grey">Built by Abraham Deeb</p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="box has-text-centered">
+                            <span class="icon is-large has-text-primary mb-3">
+                                <i class="fas fa-clock fa-2x"></i>
+                            </span>
+                            <h3 class="title is-5">Response Time</h3>
+                            <p class="has-text-grey">Usually within 24 hours</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="box">
+                    <h2 class="title is-4 mb-4">Send us a Message</h2>
+
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="notification is-success">
+                        <button class="delete"></button>
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        {% crispy form %}
+                    </form>
+                </div>
+
+                <!-- Additional Info -->
+                <div class="box">
+                    <h3 class="title is-5">About This Project</h3>
+                    <div class="content">
+                        <p>
+                            This Lead Verification API is a portfolio project demonstrating:
+                        </p>
+                        <ul>
+                            <li><strong>Django REST Framework</strong> - Professional API development</li>
+                            <li><strong>Third-party Integrations</strong> - Hunter.io and Twilio APIs</li>
+                            <li><strong>Authentication & Security</strong> - API key management and rate limiting</li>
+                            <li><strong>Data Processing</strong> - CSV bulk operations with pandas</li>
+                            <li><strong>Production Deployment</strong> - Hosted on Railway with PostgreSQL</li>
+                        </ul>
+
+                        <div class="notification is-info">
+                            <p>
+                                <strong>Interested in working together?</strong><br>
+                                I'm available for backend development projects, API integrations,
+                                and Django applications. Feel free to reach out!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="buttons is-centered">
+                    <a class="button is-primary" href="{% url 'documentation' %}">
+                        <span class="icon">
+                            <i class="fas fa-book"></i>
+                        </span>
+                        <span>API Documentation</span>
+                    </a>
+
+                    {% if request.user.is_authenticated %}
+                    <a class="button is-link" href="{% url 'dashboard' %}">
+                        <span class="icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </span>
+                        <span>Dashboard</span>
+                    </a>
+                    {% else %}
+                    <a class="button is-link" href="{% url 'signup' %}">
+                        <span class="icon">
+                            <i class="fas fa-user-plus"></i>
+                        </span>
+                        <span>Get Started</span>
+                    </a>
+                    {% endif %}
+
+                    <a class="button" href="{% url 'home' %}">
+                        <span class="icon">
+                            <i class="fas fa-home"></i>
+                        </span>
+                        <span>Back to Home</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Auto-hide notifications after 5 seconds
+    document.addEventListener('DOMContentLoaded', function () {
+        const notifications = document.querySelectorAll('.notification');
+        notifications.forEach(function (notification) {
+            const deleteButton = notification.querySelector('.delete');
+            if (deleteButton) {
+                deleteButton.addEventListener('click', function () {
+                    notification.remove();
+                });
+            }
+
+            // Auto-hide after 5 seconds
+            setTimeout(function () {
+                if (notification.parentNode) {
+                    notification.style.opacity = '0';
+                    setTimeout(function () {
+                        if (notification.parentNode) {
+                            notification.remove();
+                        }
+                    }, 300);
+                }
+            }, 5000);
+        });
+    });
+</script>
+
+{% endblock %}

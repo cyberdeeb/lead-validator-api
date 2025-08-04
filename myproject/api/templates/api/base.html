@@ -6,6 +6,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="{% static 'api/style.css' %}">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -36,7 +37,7 @@
           Home
         </a>
 
-        <a class="navbar-item">
+        <a class="navbar-item {% if request.path == '/docs/' %}is-active{% endif %}" href="{% url 'documentation' %}">
           Documentation
         </a>
         {% if request.user.is_authenticated %}
@@ -44,8 +45,8 @@
           Dashboard
         </a>
         {% endif %}
-        <a class="navbar-item">
-          Report an Issue
+        <a class="navbar-item {% if request.path == '/contact/' %}is-active{% endif %}" href="{% url 'contact' %}">
+          Contact Us
         </a>
       </div>
 
