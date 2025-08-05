@@ -68,3 +68,160 @@ code {
   background-color: #dd6b20 !important;
   color: white !important;
 }
+
+/* Mobile-specific improvements */
+@media screen and (max-width: 768px) {
+  /* Logo responsive sizing */
+  .logo {
+    width: 60% !important;
+    max-width: 200px !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  /* Mobile padding adjustments */
+  .section {
+    padding: 1.5rem 0.75rem !important;
+  }
+
+  /* Mobile button adjustments */
+  .buttons.is-centered .button {
+    margin: 0.25rem !important;
+    width: 100% !important;
+    max-width: 250px !important;
+  }
+
+  /* Mobile text adjustments */
+  .subtitle {
+    line-height: 1.4 !important;
+  }
+
+  /* Mobile box padding */
+  .box {
+    padding: 1rem !important;
+  }
+
+  /* Mobile feature boxes */
+  .column .box {
+    margin-bottom: 0.5rem !important;
+    padding: 0.75rem !important;
+  }
+
+  /* Mobile navigation improvements */
+  .navbar-item {
+    padding: 0.5rem 1rem !important;
+  }
+
+  /* Mobile form improvements */
+  .field {
+    margin-bottom: 1rem !important;
+  }
+
+  /* Mobile table improvements */
+  .table-container {
+    overflow-x: auto !important;
+  }
+
+  .table {
+    font-size: 0.875rem !important;
+  }
+}
+
+/* Tablet-specific adjustments */
+@media screen and (min-width: 769px) and (max-width: 1023px) {
+  .logo {
+    width: 40% !important;
+    max-width: 300px !important;
+  }
+
+  .buttons.is-centered .button {
+    margin: 0.5rem !important;
+  }
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+  .button {
+    min-height: 44px !important; /* iOS recommended touch target */
+  }
+
+  .navbar-item {
+    min-height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  /* Larger tap targets for mobile */
+  .notification .delete {
+    width: 32px !important;
+    height: 32px !important;
+  }
+}
+
+/* Dashboard-specific mobile improvements */
+@media screen and (max-width: 768px) {
+  /* Dashboard card styling */
+  .box .level.is-mobile {
+    margin-bottom: 0.75rem !important;
+  }
+
+  .box .level .level-item {
+    flex-shrink: 1 !important;
+  }
+
+  /* Mobile dashboard headings */
+  .heading {
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    color: #6b7280 !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  /* Mobile dashboard values */
+  .is-size-7 {
+    font-size: 0.8rem !important;
+    line-height: 1.3 !important;
+  }
+
+  /* Mobile API key display */
+  .title.is-6 {
+    font-size: 1rem !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* Mobile button improvements */
+  .button.is-small {
+    font-size: 0.8rem !important;
+    padding: 0.5rem 0.75rem !important;
+  }
+
+  /* Mobile info boxes */
+  .box .icon.is-large {
+    margin-bottom: 0.5rem !important;
+  }
+
+  .box .title.is-5 {
+    font-size: 1.1rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  .box .subtitle.is-6 {
+    font-size: 0.9rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+}
+
+/* Table improvements for larger mobile screens */
+@media screen and (min-width: 769px) and (max-width: 1023px) {
+  .table {
+    font-size: 0.875rem !important;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.5rem !important;
+  }
+
+  .button.is-small {
+    font-size: 0.75rem !important;
+  }
+}

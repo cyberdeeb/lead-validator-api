@@ -2,75 +2,207 @@
 {% load static %}
 {% block title %}Dashboard{% endblock %}
 {% block content %}
-<section>
-  <h2 class="title is-3 m-5 has-text-centered"> API Usage </h2>
 
-  <h3 class="title is-4 m-5 has-text-centered">Welcome {{ user.username }}!</h3>
-</section>
-{% if messages %}
-<div class="section">
-  {% for message in messages %}
-  <div class="notification 
-        {% if message.tags == 'success' %}is-success
-        {% elif message.tags == 'error' or message.tags == 'danger' %}is-danger
-        {% elif message.tags == 'warning' %}is-warning
-        {% elif message.tags == 'info' %}is-info
-        {% endif %}">
-    <button class="delete"></button>
-    {{ message }}
-  </div>
-  {% endfor %}
-</div>
-{% endif %}
-<section class="is-flex is-justify-content-center m-5">
-  <table class="table has-text-centered">
-    <tr>
-      <th class="has-text-centered">API Prefix</th>
-      <th class="has-text-centered">Created</th>
-      <th class="has-text-centered">Last Used</th>
-      <th class="has-text-centered">Request Count</th>
-      <th class="has-text-centered">Bulk Request Count</th>
-      <th class="has-text-centered">Last Regenerated</th>
-      <th class="has-text-centered">Status</th>
-      <th class="has-text-centered">Actions</th>
-    </tr>
-    {% for key in api_keys %}
-    <tr>
-      <td>{{ key.prefix }}</td>
-      <td>{{ key.created_at }}</td>
-      <td>{{ key.last_used_at|default:"Never" }}</td>
-      <td>{{ key.regular_request_count }}</td>
-      <td>{{ key.bulk_request_count }}</td>
-      <td>{{ key.last_regenerated|default:"Never" }}</td>
-      <td>
-        {% if key.is_inactive %}
-        <span class="tag is-danger">Inactive</span>
-        {% else %}
-        <span class="tag is-success">Active</span>
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-10-desktop is-12-mobile">
+
+        <!-- Header Section -->
+        <div class="has-text-centered mb-5">
+          <h2 class="title is-2-desktop is-3-mobile">API Dashboard</h2>
+          <h3 class="subtitle is-4-desktop is-5-mobile">Welcome, {{ user.username }}!</h3>
+        </div>
+
+        <!-- Messages Section -->
+        {% if messages %}
+        <div class="mb-5">
+          {% for message in messages %}
+          <div class="notification 
+                {% if message.tags == 'success' %}is-success
+                {% elif message.tags == 'error' or message.tags == 'danger' %}is-danger
+                {% elif message.tags == 'warning' %}is-warning
+                {% elif message.tags == 'info' %}is-info
+                {% endif %}">
+            <button class="delete"></button>
+            {{ message }}
+          </div>
+          {% endfor %}
+        </div>
         {% endif %}
-      </td>
-      <td>
-        <form method="post" action="{% url 'regenerate' %}">
-          {% csrf_token %}
-          <button type="submit" class="button is-small is-rounded is-warning" {% if key.is_inactive %}title="Inactive"
-            disabled{% endif %}>Regenerate</button>
-        </form>
-      </td>
-    </tr>
-    {% empty %}
-    <tr>
-      <td colspan="8" class="has-text-centered">You don't have an API key yet.</td>
-    </tr>
-    <tr>
-      <td colspan="8" class="has-text-centered">
-        <form method="post" action="{% url 'generate' %}">
-          {% csrf_token %}
-          <button type="submit" class="button is-rounded is-link mt-1">Generate</button>
-        </form>
-      </td>
-    </tr>
-    {% endfor %}
-  </table>
+
+        <!-- API Keys Section -->
+        <div class="box">
+          <h4 class="title is-4 mb-4">
+            <span class="icon-text">
+              <span class="icon">
+                <i class="fas fa-key"></i>
+              </span>
+              <span>Your API Keys</span>
+            </span>
+          </h4>
+
+          {% for key in api_keys %}
+          <!-- Mobile Card Layout -->
+          <div class="box is-hidden-tablet mb-4">
+            <div class="level is-mobile mb-3">
+              <div class="level-left">
+                <div class="level-item">
+                  <div>
+                    <p class="heading">API Key</p>
+                    <p class="title is-6">{{ key.prefix }}...</p>
+                  </div>
+                </div>
+              </div>
+              <div class="level-right">
+                <div class="level-item">
+                  {% if key.is_inactive %}
+                  <span class="tag is-danger">Inactive</span>
+                  {% else %}
+                  <span class="tag is-success">Active</span>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+
+            <div class="columns is-mobile is-multiline">
+              <div class="column is-6">
+                <p class="heading">Created</p>
+                <p class="is-size-7">{{ key.created_at|date:"M d, Y" }}</p>
+              </div>
+              <div class="column is-6">
+                <p class="heading">Last Used</p>
+                <p class="is-size-7">{{ key.last_used_at|default:"Never" }}</p>
+              </div>
+              <div class="column is-6">
+                <p class="heading">Regular Requests</p>
+                <p class="is-size-7">{{ key.regular_request_count }}</p>
+              </div>
+              <div class="column is-6">
+                <p class="heading">Bulk Requests</p>
+                <p class="is-size-7">{{ key.bulk_request_count }}</p>
+              </div>
+            </div>
+
+            <div class="has-text-centered mt-3">
+              <form method="post" action="{% url 'regenerate' %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="button is-warning is-small" {% if key.is_inactive %}disabled{% endif %}>
+                  <span class="icon">
+                    <i class="fas fa-sync-alt"></i>
+                  </span>
+                  <span>Regenerate Key</span>
+                </button>
+              </form>
+            </div>
+          </div>
+          {% empty %}
+
+          <!-- No API Keys State -->
+          <div class="has-text-centered py-6">
+            <div class="mb-4">
+              <span class="icon is-large has-text-grey-light">
+                <i class="fas fa-key fa-3x"></i>
+              </span>
+            </div>
+            <p class="title is-5">No API Keys Yet</p>
+            <p class="subtitle is-6 mb-4">Generate your first API key to start using the Lead Verification API</p>
+            <form method="post" action="{% url 'generate' %}">
+              {% csrf_token %}
+              <button type="submit" class="button is-primary is-medium">
+                <span class="icon">
+                  <i class="fas fa-plus"></i>
+                </span>
+                <span>Generate API Key</span>
+              </button>
+            </form>
+          </div>
+          {% endfor %}
+
+          <!-- Desktop Table Layout -->
+          {% if api_keys %}
+          <div class="table-container is-hidden-mobile">
+            <table class="table is-fullwidth is-striped is-hoverable">
+              <thead>
+                <tr>
+                  <th>API Prefix</th>
+                  <th>Created</th>
+                  <th>Last Used</th>
+                  <th>Regular Requests</th>
+                  <th>Bulk Requests</th>
+                  <th>Last Regenerated</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for key in api_keys %}
+                <tr>
+                  <td><code>{{ key.prefix }}...</code></td>
+                  <td>{{ key.created_at|date:"M d, Y" }}</td>
+                  <td>{{ key.last_used_at|default:"Never" }}</td>
+                  <td>{{ key.regular_request_count }}</td>
+                  <td>{{ key.bulk_request_count }}</td>
+                  <td>{{ key.last_regenerated|default:"Never" }}</td>
+                  <td>
+                    {% if key.is_inactive %}
+                    <span class="tag is-danger">Inactive</span>
+                    {% else %}
+                    <span class="tag is-success">Active</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    <form method="post" action="{% url 'regenerate' %}" style="display: inline;">
+                      {% csrf_token %}
+                      <button type="submit" class="button is-small is-warning" {% if key.is_inactive %}disabled{% endif
+                        %}>
+                        <span class="icon is-small">
+                          <i class="fas fa-sync-alt"></i>
+                        </span>
+                        <span>Regenerate</span>
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- Usage Information -->
+        <div class="columns is-multiline">
+          <div class="column is-6-tablet is-12-mobile">
+            <div class="box has-text-centered">
+              <span class="icon is-large has-text-info mb-3">
+                <i class="fas fa-chart-line fa-2x"></i>
+              </span>
+              <p class="title is-5">Rate Limits</p>
+              <p class="subtitle is-6">5 requests per month</p>
+              <p class="is-size-7 has-text-grey">Portfolio demo limitations</p>
+            </div>
+          </div>
+          <div class="column is-6-tablet is-12-mobile">
+            <div class="box has-text-centered">
+              <span class="icon is-large has-text-primary mb-3">
+                <i class="fas fa-book fa-2x"></i>
+              </span>
+              <p class="title is-5">Documentation</p>
+              <p class="subtitle is-6">API Guide & Examples</p>
+              <a href="{% url 'documentation' %}" class="button is-primary is-small">
+                <span class="icon">
+                  <i class="fas fa-external-link-alt"></i>
+                </span>
+                <span>View Docs</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
 </section>
 
 {% endblock %}

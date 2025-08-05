@@ -5,47 +5,104 @@
 
 <section class="section">
   <div class="container">
-    <!-- Centered logo -->
+    <div class="columns is-centered">
+      <div class="column is-10-desktop is-12-mobile">
 
-    <img src="{% static 'api/images/logo.png' %}" alt="Project Logo" class="logo">
+        <!-- Centered logo with responsive sizing -->
+        <div class="has-text-centered mb-5">
+          <img src="{% static 'api/images/logo.png' %}" alt="Project Logo" class="logo"
+            style="max-width: 200px; width: 80%; height: auto;">
+        </div>
 
+        <!-- Project title and description with responsive text -->
+        <div class="has-text-centered mb-5">
+          <h1 class="title is-2-desktop is-3-tablet is-4-mobile mb-4">
+            Lead Verification API
+          </h1>
+          <p class="subtitle is-4-desktop is-5-tablet is-6-mobile px-3">
+            A lead verification platform built with Django REST Framework.
+            It checks the validity of email addresses and phone numbers via API or CSV upload.
+          </p>
+        </div>
 
-    <!-- Project title and description -->
+        <!-- Developer info box with responsive padding -->
+        <div class="box has-text-centered mx-3-mobile">
+          <p class="is-size-6-desktop is-size-7-mobile mb-4">
+            Created by <strong>Abraham Deeb</strong> — Backend developer passionate about clean architecture,
+            automation,
+            and empowering pipelines with reliable data tools.
+          </p>
 
-    <p class="subtitle is-3 m-5 has-text-centered">
-      A lead verification platform built with Django REST Framework.
-      It checks the validity of email addresses and phone numbers via API or CSV upload.
-    </p>
+          <!-- Responsive button layout -->
+          <div class="buttons is-centered is-flex-wrap-wrap">
+            <a class="button is-primary is-medium-desktop is-normal-mobile mb-2" href="{% url 'documentation' %}">
+              <span class="icon">
+                <i class="fas fa-book"></i>
+              </span>
+              <span class="is-hidden-mobile">View API Documentation</span>
+              <span class="is-hidden-tablet">Documentation</span>
+            </a>
 
-    <div class="box has-text-centered mt-3">
-      <p class="is-size-6 mb-4">
-        Created by <strong>Abraham Deeb</strong> — Backend developer passionate about clean architecture, automation,
-        and empowering pipelines with reliable data tools.
-      </p>
+            {% if request.user.is_authenticated %}
+            <a class="button is-link is-medium-desktop is-normal-mobile mb-2" href="{% url 'dashboard' %}">
+              <span class="icon">
+                <i class="fas fa-tachometer-alt"></i>
+              </span>
+              <span class="is-hidden-mobile">Go to Dashboard</span>
+              <span class="is-hidden-tablet">Dashboard</span>
+            </a>
+            {% else %}
+            <a class="button is-link is-medium-desktop is-normal-mobile mb-2" href="{% url 'signup' %}">
+              <span class="icon">
+                <i class="fas fa-user-plus"></i>
+              </span>
+              <span class="is-hidden-mobile">Get Started</span>
+              <span class="is-hidden-tablet">Sign Up</span>
+            </a>
+            {% endif %}
+          </div>
+        </div>
 
-      <div class="buttons is-centered">
-        <a class="button is-primary" href="{% url 'documentation' %}">
-          <span class="icon">
-            <i class="fas fa-book"></i>
-          </span>
-          <span>View API Documentation</span>
-        </a>
+        <!-- Feature highlights for mobile -->
+        <div class="columns is-multiline is-centered mt-5 is-hidden-desktop">
+          <div class="column is-6-tablet is-12-mobile">
+            <div class="box has-text-centered py-4">
+              <span class="icon is-large has-text-primary mb-2">
+                <i class="fas fa-envelope fa-2x"></i>
+              </span>
+              <p class="is-size-7 has-text-weight-semibold">Email Verification</p>
+              <p class="is-size-7 has-text-grey">Hunter.io integration</p>
+            </div>
+          </div>
+          <div class="column is-6-tablet is-12-mobile">
+            <div class="box has-text-centered py-4">
+              <span class="icon is-large has-text-primary mb-2">
+                <i class="fas fa-phone fa-2x"></i>
+              </span>
+              <p class="is-size-7 has-text-weight-semibold">Phone Verification</p>
+              <p class="is-size-7 has-text-grey">Twilio integration</p>
+            </div>
+          </div>
+          <div class="column is-6-tablet is-12-mobile">
+            <div class="box has-text-centered py-4">
+              <span class="icon is-large has-text-primary mb-2">
+                <i class="fas fa-file-csv fa-2x"></i>
+              </span>
+              <p class="is-size-7 has-text-weight-semibold">Bulk Processing</p>
+              <p class="is-size-7 has-text-grey">CSV upload support</p>
+            </div>
+          </div>
+          <div class="column is-6-tablet is-12-mobile">
+            <div class="box has-text-centered py-4">
+              <span class="icon is-large has-text-primary mb-2">
+                <i class="fas fa-key fa-2x"></i>
+              </span>
+              <p class="is-size-7 has-text-weight-semibold">API Authentication</p>
+              <p class="is-size-7 has-text-grey">Secure access</p>
+            </div>
+          </div>
+        </div>
 
-        {% if request.user.is_authenticated %}
-        <a class="button is-link" href="{% url 'dashboard' %}">
-          <span class="icon">
-            <i class="fas fa-tachometer-alt"></i>
-          </span>
-          <span>Go to Dashboard</span>
-        </a>
-        {% else %}
-        <a class="button is-link" href="{% url 'signup' %}">
-          <span class="icon">
-            <i class="fas fa-user-plus"></i>
-          </span>
-          <span>Get Started</span>
-        </a>
-        {% endif %}
       </div>
     </div>
   </div>
