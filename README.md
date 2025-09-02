@@ -274,7 +274,7 @@ This project demonstrates:
 
 ## 📄 License
 
-This project is a portfolio demonstration. For production use or collaboration inquiries, please contact the developer.
+This project is a portfolio demonstration. For production use or collaboration inquiries, please contact the developer, Abraham Deeb.
 
 ---
 
